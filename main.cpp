@@ -121,24 +121,35 @@ int main() {
     fin.close();    // close file
 
     //CALCULATE AVERAGES
-    Times avgVec, avgList, avgSet, sum;
+    Times sumVec, sumList, sumSet;
 
     for(int i = 0; i < 4; i++) {
         for (int j = 0; j < 15; j++) {
-            if (i == 0) { sum.read += times[0][i][j]; }
-            if (i == 1) { sum.sort += times[0][i][j]; }
-            if (i == 2) { sum.ins += times[0][i][j]; }
-            if (i == 0) { sum.del += times[0][i][j]; }
+            if (i == 0) { sumVec.read += times[0][i][j]; }
+            if (i == 1) { sumVec.sort += times[0][i][j]; }
+            if (i == 2) { sumVec.ins += times[0][i][j]; }
+            if (i == 0) { sumVec.del += times[0][i][j]; }
         }
     }
-    avgVec.read = sum.read / SIMS;
-    avgVec.sort = sum.sort / SIMS;
-    avgVec.ins = sum.ins / SIMS;
-    avgVec.del = sum.del / SIMS;
-
-    cout << avgVec.read;
+    for(int i = 0; i < 4; i++) {
+        for (int j = 0; j < 15; j++) {
+            if (i == 0) { sumList.read += times[1][i][j]; }
+            if (i == 1) { sumList.sort += times[1][i][j]; }
+            if (i == 2) { sumList.ins += times[1][i][j]; }
+            if (i == 0) { sumList.del += times[1][i][j]; }
+        }
+    }
+    for(int i = 0; i < 4; i++) {
+        for (int j = 0; j < 15; j++) {
+            if (i == 0) { sumSet.read += times[2][i][j]; }
+            if (i == 1) { sumSet.sort += times[2][i][j]; }
+            if (i == 2) { sumSet.ins += times[2][i][j]; }
+            if (i == 0) { sumSet.del += times[2][i][j]; }
+        }
+    }
     
-/*
+
+    // PRINT
     cout << "Number of simulations: " << SIMS << endl;
     cout << setw(WIDTH) << "Operation";
     cout << setw(WIDTH) << "Vector";
@@ -146,24 +157,24 @@ int main() {
     cout << setw(WIDTH) << "Set" << endl;
 
     cout << setw(WIDTH) << "Read";
-    cout << setw(WIDTH) << averages[0][0];
-    cout << setw(WIDTH) << averages[1][0];
-    cout << setw(WIDTH) << averages[2][0] << endl;
+    cout << setw(WIDTH) << sumVec.read / SIMS;
+    cout << setw(WIDTH) << sumList.read / SIMS;
+    cout << setw(WIDTH) << sumSet.read / SIMS << endl;
 
     cout << setw(WIDTH) << "Sort";
-    cout << setw(WIDTH) << averages[0][1];
-    cout << setw(WIDTH) << averages[1][1];
-    cout << setw(WIDTH) << averages[2][1] << endl;
+    cout << setw(WIDTH) << sumVec.sort / SIMS;
+    cout << setw(WIDTH) << sumList.sort / SIMS;
+    cout << setw(WIDTH) << sumSet.sort / SIMS << endl;
 
     cout << setw(WIDTH) << "Insert";
-    cout << setw(WIDTH) << averages[0][2];
-    cout << setw(WIDTH) << averages[1][2];
-    cout << setw(WIDTH) << averages[2][2] << endl;
+    cout << setw(WIDTH) << sumVec.ins / SIMS;
+    cout << setw(WIDTH) << sumList.ins / SIMS;
+    cout << setw(WIDTH) << sumSet.ins / SIMS << endl;
 
     cout << setw(WIDTH) << "Delete";
-    cout << setw(WIDTH) << averages[0][3];
-    cout << setw(WIDTH) << averages[1][3];
-    cout << setw(WIDTH) << averages[2][3];*/
+    cout << setw(WIDTH) << sumVec.del / SIMS;
+    cout << setw(WIDTH) << sumList.del / SIMS;
+    cout << setw(WIDTH) << sumSet.del / SIMS;
 
     return 0;
 }
