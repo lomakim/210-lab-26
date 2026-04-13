@@ -11,26 +11,25 @@ using namespace std::chrono;
 
 const int WIDTH = 10, TESTS = 4, CONTAINER_TYPES = 3, SIMS = 15;
 
-struct Times {
+struct Times {                  // struct to hold times for each test type
     int read, sort, ins, del;
 };
 
 int main() {
-    int times[CONTAINER_TYPES][TESTS][SIMS];
-    ifstream fin("codes.txt");
+    // DECLARATIONS
+    int times[CONTAINER_TYPES][TESTS][SIMS];    // 3D Array
+    ifstream fin("codes.txt");                  // open file
     vector<string> vec;
     list<string> list;
     set<string> set;
     string temp;
+    auto start = high_resolution_clock::now();  // start time marker
+    auto end = high_resolution_clock::now();    // end time marker
+    auto duration = duration_cast<nanoseconds>(end - start);    // duration
+    auto it = list.begin();                 // iterator for list
+    auto it2 = set.begin();                 // iterator for set
 
-    //READING FILE
-    auto start = high_resolution_clock::now();
-    auto end = high_resolution_clock::now();
-    auto duration = duration_cast<nanoseconds>(end - start);
-    auto it = list.begin();
-    auto it2 = set.begin();
-
-
+    // COLLECT DATA - for loop iterates 15 times per test
     for (int i = 0; i < 15; i++) {
         //READING FILE
         start = high_resolution_clock::now();                   //vector read
@@ -120,36 +119,35 @@ int main() {
     }
     fin.close();    // close file
 
-    //CALCULATE AVERAGES
-    Times sumVec, sumList, sumSet;
+    //CALCULATE SUM
+    Times sumVec, sumList, sumSet;  // holds sums of times for each container/test
 
-    for(int i = 0; i < 4; i++) {
-        for (int j = 0; j < 15; j++) {
+    for(int i = 0; i < TESTS; i++) {            // calculate vector time sums
+        for (int j = 0; j < SIMS; j++) {
             if (i == 0) { sumVec.read += times[0][i][j]; }
             if (i == 1) { sumVec.sort += times[0][i][j]; }
             if (i == 2) { sumVec.ins += times[0][i][j]; }
             if (i == 0) { sumVec.del += times[0][i][j]; }
         }
     }
-    for(int i = 0; i < 4; i++) {
-        for (int j = 0; j < 15; j++) {
+    for(int i = 0; i < TESTS; i++) {            // calculate list time sums
+        for (int j = 0; j < SIMS; j++) {
             if (i == 0) { sumList.read += times[1][i][j]; }
             if (i == 1) { sumList.sort += times[1][i][j]; }
             if (i == 2) { sumList.ins += times[1][i][j]; }
             if (i == 0) { sumList.del += times[1][i][j]; }
         }
     }
-    for(int i = 0; i < 4; i++) {
-        for (int j = 0; j < 15; j++) {
+    for(int i = 0; i < TESTS; i++) {            // calculate set time sums
+        for (int j = 0; j < SIMS; j++) {
             if (i == 0) { sumSet.read += times[2][i][j]; }
             if (i == 1) { sumSet.sort += times[2][i][j]; }
             if (i == 2) { sumSet.ins += times[2][i][j]; }
             if (i == 0) { sumSet.del += times[2][i][j]; }
         }
     }
-    
 
-    // PRINT
+    // PRINT - print averages calculated from sums
     cout << "Number of simulations: " << SIMS << endl;
     cout << setw(WIDTH) << "Operation";
     cout << setw(WIDTH) << "Vector";
