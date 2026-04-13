@@ -66,7 +66,7 @@ int main() {
         duration = duration_cast<nanoseconds>(end - start);
         times[1][1][i] = duration.count();
 
-        times[2][1][i] = -1;                                    // set "sort"
+        times[2][1][i] = 0;                                    // set "sort"
 
         //INSERTING
         string t = "TESTCODE";
@@ -98,7 +98,6 @@ int main() {
         duration = duration_cast<nanoseconds>(end - start);
         times[0][3][i] = duration.count();
 
-
         start = high_resolution_clock::now();                   // list delete
         it = list.begin();
         advance(it, (list.size() / 2));
@@ -117,7 +116,14 @@ int main() {
     }
     fin.close();    // close file
 
-    cout << "**** DATA STRUCTURE RACE RESULTS ****" << endl;
+    //CALCULATE AVERAGES
+    int sum;
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 15; j++)
+            sum += times[0][i][j];
+
+
+    cout << "Number of simulations: " << SIMS << endl;
     cout << setw(WIDTH) << "Operation";
     cout << setw(WIDTH) << "Vector";
     cout << setw(WIDTH) << "List";
