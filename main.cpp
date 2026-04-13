@@ -9,14 +9,10 @@
 using namespace std;
 using namespace std::chrono;
 
-const int WIDTH = 10;
-
-struct Time {
-    int vect, list, set;
-};
+const int WIDTH = 10, TESTS = 4, DATA_TYPES = 3, SIMS = 15;
 
 int main() {
-    Time read, sort1, ins, del;
+    int [DATA_TYPES][TESTS][SIMS];
     ifstream fin("codes.txt");
     vector<string> vec;
     list<string> list;
@@ -25,12 +21,18 @@ int main() {
 
     //READING FILE
     auto start = high_resolution_clock::now();
-    while (fin >> temp) {
-        vec.push_back(temp);
-    }
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<nanoseconds>(end - start);
-    read.vect = duration.count();
+
+    for (int i = 0; i < 15; i++) {
+        start = high_resolution_clock::now();
+        while (fin >> temp) {
+            vec.push_back(temp);
+        }
+        end = high_resolution_clock::now();
+        duration = duration_cast<nanoseconds>(end - start);
+        read.vect = duration.count();
+    }
 
     start = high_resolution_clock::now();
     while (fin >> temp) {
