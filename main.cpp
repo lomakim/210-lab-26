@@ -9,10 +9,10 @@
 using namespace std;
 using namespace std::chrono;
 
-const int WIDTH = 10, TESTS = 4, DATA_TYPES = 3, SIMS = 15;
+const int WIDTH = 10, TESTS = 4, CONTAINER_TYPES = 3, SIMS = 15;
 
 int main() {
-    int [DATA_TYPES][TESTS][SIMS];
+    int times[CONTAINER_TYPES][TESTS][SIMS];
     ifstream fin("codes.txt");
     vector<string> vec;
     list<string> list;
@@ -24,48 +24,48 @@ int main() {
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<nanoseconds>(end - start);
 
+
     for (int i = 0; i < 15; i++) {
-        start = high_resolution_clock::now();
+        //READING FILE
+        start = high_resolution_clock::now();                   //vector
         while (fin >> temp) {
             vec.push_back(temp);
         }
         end = high_resolution_clock::now();
         duration = duration_cast<nanoseconds>(end - start);
-        read.vect = duration.count();
+        times[0][0][i] = duration.count();
+
+        start = high_resolution_clock::now();                   // list
+        while (fin >> temp) {
+            list.push_back(temp);
+        }
+        end = high_resolution_clock::now();
+        duration = duration_cast<nanoseconds>(end - start);
+        times[1][0][i] = duration.count();
+
+        start = high_resolution_clock::now();                   // set
+        while (fin >> temp) {
+            set.insert(temp);
+        }
+        end = high_resolution_clock::now();
+        duration = duration_cast<nanoseconds>(end - start);
+        times[2][0][i] = duration.count();
+
+        //SORTING FILE
+        start = high_resolution_clock::now();
+        sort(vec.begin(), vec.end());
+        end = high_resolution_clock::now();
+        duration = duration_cast<nanoseconds>(end - start);
+        times[0][1][i] = duration.count();
+
+        start = high_resolution_clock::now();
+        list.sort();
+        end = high_resolution_clock::now();
+        duration = duration_cast<nanoseconds>(end - start);
+        times[1][1][i] = duration.count();
+
+        times[2][1][i] = -1;
     }
-
-    start = high_resolution_clock::now();
-    while (fin >> temp) {
-        list.push_back(temp);
-    }
-    end = high_resolution_clock::now();
-    duration = duration_cast<nanoseconds>(end - start);
-    read.list = duration.count();
-    
-    start = high_resolution_clock::now();
-    while (fin >> temp) {
-        set.insert(temp);
-    }
-    end = high_resolution_clock::now();
-    duration = duration_cast<nanoseconds>(end - start);
-    read.set = duration.count();
-
-    fin.close();
-
-    //SORTING FILE
-    start = high_resolution_clock::now();
-    sort(vec.begin(), vec.end());
-    end = high_resolution_clock::now();
-    duration = duration_cast<nanoseconds>(end - start);
-    sort1.vect = duration.count();
-
-    start = high_resolution_clock::now();
-    list.sort();
-    end = high_resolution_clock::now();
-    duration = duration_cast<nanoseconds>(end - start);
-    sort1.list = duration.count();
-
-    sort1.set = -1;
 
 
     //INSERTING
@@ -114,6 +114,8 @@ int main() {
     end = high_resolution_clock::now();
     duration = duration_cast<nanoseconds>(end - start);
     del.set = duration.count();
+
+    fin.close();
 
     cout << "**** DATA STRUCTURE RACE RESULTS ****" << endl;
     cout << setw(WIDTH) << "Operation";
